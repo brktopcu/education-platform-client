@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.education.client.data.Course;
 import com.education.client.data.RestService;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,6 +14,8 @@ import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.AfterNavigationEvent;
@@ -66,7 +70,7 @@ public class KurslarView extends Div implements AfterNavigationObserver {
 
         Span name = new Span(course.getCourseName());
         name.addClassName("name");
-        Span date = new Span(String.valueOf(course.getCreatedDate()));
+        Span date = new Span(String.valueOf(course.getCreatedDate()).substring(0,10));
         date.addClassName("date");
         header.add(name, date);
 
@@ -78,15 +82,21 @@ public class KurslarView extends Div implements AfterNavigationObserver {
         actions.setSpacing(false);
         actions.getThemeList().add("spacing-s");
 
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        Button courseDetailsButton = new Button("İncele", new Icon(VaadinIcon.PLAY));
+        courseDetailsButton.getStyle().set("cursor","pointer");
+        //courseDetailsButton.addClickListener(event -> UI.getCurrent()
+        //       .navigate(CourseDetails.class));
+        buttonLayout.add(courseDetailsButton);
+
         description.add(header, post, actions);
-        card.add(image, description);
+        card.add(image, description, buttonLayout);
         return card;
     }
 
     @Override
     public void afterNavigation(AfterNavigationEvent event) {
 
-        // Set some data when this view is displayed.
         List<Course> courses = restService.getAllCourses();
 
         grid.setItems(courses);

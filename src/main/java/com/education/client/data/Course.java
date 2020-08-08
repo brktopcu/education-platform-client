@@ -17,7 +17,7 @@ import java.util.Map;
 })
 public class Course {
     @JsonProperty("courseId")
-    private Integer courseId;
+    private Long courseId;
     @JsonProperty("courseName")
     private String courseName;
     @JsonProperty("courseDescription")
@@ -32,12 +32,12 @@ public class Course {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("courseId")
-    public Integer getCourseId() {
+    public Long getCourseId() {
         return courseId;
     }
 
     @JsonProperty("courseId")
-    public void setCourseId(Integer courseId) {
+    public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
 

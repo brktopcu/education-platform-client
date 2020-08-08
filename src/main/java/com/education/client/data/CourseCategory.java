@@ -12,19 +12,19 @@ import java.util.Map;
 })
 public class CourseCategory {
     @JsonProperty("courseCategoryId")
-    private Integer courseCategoryId;
+    private Long courseCategoryId;
     @JsonProperty("courseCategoryName")
     private String courseCategoryName;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("courseCategoryId")
-    public Integer getCourseCategoryId() {
+    public Long getCourseCategoryId() {
         return courseCategoryId;
     }
 
     @JsonProperty("courseCategoryId")
-    public void setCourseCategoryId(Integer courseCategoryId) {
+    public void setCourseCategoryId(Long courseCategoryId) {
         this.courseCategoryId = courseCategoryId;
     }
 
