@@ -1,6 +1,6 @@
 package com.education.client.views.yenikursekle;
 
-import com.education.client.data.entity.Person;
+import com.education.client.data.Course;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -41,7 +41,7 @@ public class YeniKursEkleView extends Div {
         createButtonLayout(wrapper);
 
         // Configure Form
-        Binder<Person> binder = new Binder<>(Person.class);
+        Binder<Course> binder = new Binder<>(Course.class);
 
         // Bind fields. This where you'd define e.g. validation rules
         binder.bindInstanceFields(this);

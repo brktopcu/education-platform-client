@@ -1,6 +1,5 @@
-package com.education.client.views.kategoriekle;
+/*package com.education.client.views.kategoriekle;
 
-import com.education.client.data.entity.Person;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -97,3 +96,4 @@ public class KategoriEkleView extends Div {
     }
 
 }
+*/
