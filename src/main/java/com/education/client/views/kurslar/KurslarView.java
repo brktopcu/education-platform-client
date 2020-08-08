@@ -18,11 +18,8 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.AfterNavigationEvent;
-import com.vaadin.flow.router.AfterNavigationObserver;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;import com.education.client.views.main.MainView;
+import com.vaadin.flow.router.*;
+import com.education.client.views.main.MainView;
 import com.vaadin.flow.server.StreamResource;
 
 
@@ -85,8 +82,11 @@ public class KurslarView extends Div implements AfterNavigationObserver {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         Button courseDetailsButton = new Button("İncele", new Icon(VaadinIcon.PLAY));
         courseDetailsButton.getStyle().set("cursor","pointer");
-        //courseDetailsButton.addClickListener(event -> UI.getCurrent()
-        //       .navigate(CourseDetails.class));
+
+        courseDetailsButton.addClickListener(event -> UI.getCurrent()
+               .navigate(RouteConfiguration.forSessionScope()
+                       .getUrl(CourseDetails.class, course.getCourseId())));
+
         buttonLayout.add(courseDetailsButton);
 
         description.add(header, post, actions);
