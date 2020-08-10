@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import com.education.client.data.Course;
-import com.education.client.data.RestService;
+import com.education.client.services.RestService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -55,6 +55,9 @@ public class KurslarView extends Div implements AfterNavigationObserver {
         StreamResource resource =
                 new StreamResource("img", () -> new ByteArrayInputStream(course.getCoursePicture()));
         image.setSrc(resource);
+        image.setHeight("60px");
+        image.setWidth("165px");
+        image.getStyle().set("border-radius", "0%");
         VerticalLayout description = new VerticalLayout();
         description.addClassName("description");
         description.setSpacing(false);

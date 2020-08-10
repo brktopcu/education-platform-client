@@ -22,7 +22,7 @@ public class Video {
     @JsonProperty("videoType")
     private String videoType;
     @JsonProperty("videoData")
-    private String videoData;
+    private byte[] videoData;
     @JsonProperty("courseCategory")
     private CourseCategory courseCategory;
     @JsonProperty("createdDate")
@@ -61,12 +61,12 @@ public class Video {
     }
 
     @JsonProperty("videoData")
-    public String getVideoData() {
+    public byte[] getVideoData() {
         return videoData;
     }
 
     @JsonProperty("videoData")
-    public void setVideoData(String videoData) {
+    public void setVideoData(byte[] videoData) {
         this.videoData = videoData;
     }
 

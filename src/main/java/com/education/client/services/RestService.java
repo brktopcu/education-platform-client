@@ -1,6 +1,8 @@
-package com.education.client.data;
+package com.education.client.services;
 
 import com.education.client.data.Course;
+import com.education.client.data.Section;
+import com.education.client.data.Video;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
@@ -38,5 +40,16 @@ public class RestService {
 
 
         return sections;
+    }
+
+    public List<Video> getVideosBySectionId(Long sectionId){
+
+        final RequestHeadersSpec<?> spec = WebClient.create().get()
+                .uri("http://localhost:8081/videos/"+sectionId);
+
+        final List<Video> videos = spec.retrieve()
+                .toEntityList(Video.class).block().getBody();
+
+        return videos;
     }
 }
