@@ -1,4 +1,4 @@
-package com.education.client.views.kurslarım;
+/*package com.education.client.views.kurslarım;
 
 import java.util.Arrays;
 import java.util.List;
@@ -157,3 +157,4 @@ public class KurslarımView extends Div implements AfterNavigationObserver {
     }
 
 }
+*/

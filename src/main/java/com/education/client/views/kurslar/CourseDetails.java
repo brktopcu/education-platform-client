@@ -5,11 +5,8 @@ import com.education.client.data.Video;
 import com.education.client.services.RestService;
 import com.education.client.data.Section;
 import com.education.client.views.main.MainView;
-import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -17,11 +14,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.StreamResource;
-import com.vaadin.server.Resource;
-import org.vaadin.gwtav.GwtVideo;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.util.List;
 
 @Route(value = "courses", layout = MainView.class)
