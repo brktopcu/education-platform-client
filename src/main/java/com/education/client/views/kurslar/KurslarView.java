@@ -59,6 +59,7 @@ public class KurslarView extends Div implements AfterNavigationObserver {
         image.setWidth("165px");
         image.getStyle().set("border-radius", "0%");
         VerticalLayout description = new VerticalLayout();
+        description.getStyle().set("margin-left","15px");
         description.addClassName("description");
         description.setSpacing(false);
         description.setPadding(false);
