@@ -92,7 +92,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
             documentLayout.getStyle().set("margin-top","50px");
             documents.forEach(document -> {
                 Icon fileIcon = new Icon(VaadinIcon.FILE);
-                fileIcon.setSize("50px");
+                fileIcon.setSize("30px");
                 Icon newItemIcon = new Icon(VaadinIcon.ANGLE_RIGHT);
                 newItemIcon.setSize("30px");
 
@@ -101,6 +101,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 String docDataUrl = "data:application/pdf;base64," + encodedDocData;
                 Anchor a = new Anchor(docDataUrl,document.getDocumentName());
                 a.setTarget("_blank");
+                a.getStyle().set("color","hsl(214deg 47% 47%)");
                 documentLayout.add(newItemIcon,fileIcon,a);
             });
             HorizontalLayout sectionName = new HorizontalLayout();
