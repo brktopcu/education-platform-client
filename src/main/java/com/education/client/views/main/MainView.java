@@ -26,7 +26,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import com.education.client.views.main.MainView;
 import com.education.client.views.kurslar.KurslarView;
 //import com.education.client.views.kurslarım.KurslarımView;
-import com.education.client.views.yenikursekle.YeniKursEkleView;
+//import com.education.client.views.yenikursekle.YeniKursEkleView;
 //import com.education.client.views.kategoriekle.KategoriEkleView;
 
 /**
@@ -92,7 +92,7 @@ public class MainView extends AppLayout {
         RouterLink[] links = new RouterLink[] {
             new RouterLink("Kurslar", KurslarView.class),
             //new RouterLink("Kurslarım", KurslarımView.class),
-            new RouterLink("Yeni Kurs Ekle", YeniKursEkleView.class),
+            //new RouterLink("Yeni Kurs Ekle", YeniKursEkleView.class),
            // new RouterLink("Kategori Ekle", KategoriEkleView.class)
         };
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);

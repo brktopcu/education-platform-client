@@ -1,6 +1,7 @@
 package com.education.client.services;
 
 import com.education.client.data.Course;
+import com.education.client.data.Document;
 import com.education.client.data.Section;
 import com.education.client.data.Video;
 import org.springframework.stereotype.Service;
@@ -52,4 +53,14 @@ public class RestService {
 
         return videos;
     }
+    public List<Document> getDocumentsBySectionId(Long sectionId){
+        final RequestHeadersSpec<?> spec = WebClient.create().get()
+                .uri("http://localhost:8081/documents/"+sectionId);
+
+        final List<Document> documents = spec.retrieve()
+                .toEntityList(Document.class).block().getBody();
+
+        return documents;
+    }
+
 }
