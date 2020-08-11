@@ -63,7 +63,10 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
        Icon capIcon = new Icon(VaadinIcon.ACADEMY_CAP);
        capIcon.setSize("50px");
        courseNameContainer.add(capIcon);
-       courseNameContainer.add(new H3(course.getCourseName()));
+       courseNameContainer.getStyle().set("margin-top", "1.25em");
+       H3 courseName = new H3(course.getCourseName());
+       courseName.getStyle().set("margin-top","0.25em");
+       courseNameContainer.add(courseName);
 
        //Section Container
        VerticalLayout sectionContainer = new VerticalLayout();
@@ -75,7 +78,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
             VerticalLayout videoLayout = new VerticalLayout();
             List<Video> videos = restService.getVideosBySectionId(section.getSectionId());
             videos.forEach(video -> {
-                Icon newItemIcon = new Icon(VaadinIcon.CHEVRON_RIGHT);
+                Icon newItemIcon = new Icon(VaadinIcon.ANGLE_DOWN);
                 newItemIcon.setSize("30px");
                 byte[] videoData = video.getVideoData();
                 String encodedVideoData = Base64.getEncoder().encodeToString(videoData);
@@ -90,7 +93,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
             documents.forEach(document -> {
                 Icon fileIcon = new Icon(VaadinIcon.FILE);
                 fileIcon.setSize("50px");
-                Icon newItemIcon = new Icon(VaadinIcon.CHEVRON_RIGHT);
+                Icon newItemIcon = new Icon(VaadinIcon.ANGLE_RIGHT);
                 newItemIcon.setSize("30px");
 
                 byte[] docData = document.getData();
@@ -100,13 +103,18 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 a.setTarget("_blank");
                 documentLayout.add(newItemIcon,fileIcon,a);
             });
-            VerticalLayout sectionDescription = new VerticalLayout();
+            HorizontalLayout sectionName = new HorizontalLayout();
+            Icon sectionIcon = new Icon(VaadinIcon.PLAY);
+            sectionIcon.setSize("30px");
             H4 h2SectionName = new H4(section.getSectionName());
-            sectionDescription.add(h2SectionName);
+            h2SectionName.getStyle().set("margin-top", "0.25em");
+            sectionName.add(sectionIcon, h2SectionName);
+
+            VerticalLayout sectionDescription = new VerticalLayout();
             Span sectionDescriptionSpan = new Span(section.getSectionDescription());
             sectionDescription.add(sectionDescriptionSpan);
 
-            sectionDetails.add(sectionDescription, videoLayout,documentLayout);
+            sectionDetails.add(sectionName,sectionDescription, videoLayout,documentLayout);
             sectionDetails.getStyle().set("background-color", "var(--lumo-contrast-10pct)");
             sectionContainer.add(sectionDetails);
         });
