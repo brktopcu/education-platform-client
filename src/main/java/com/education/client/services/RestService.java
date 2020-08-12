@@ -1,12 +1,13 @@
 package com.education.client.services;
 
-import com.education.client.data.Course;
-import com.education.client.data.Document;
-import com.education.client.data.Section;
-import com.education.client.data.Video;
+import com.education.client.data.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -61,6 +62,17 @@ public class RestService {
                 .toEntityList(Document.class).block().getBody();
 
         return documents;
+    }
+    public void postCourse(SavedNewCourse course){
+        Mono<String> result =  WebClient.create().post()
+                .uri("http://localhost:8081/courses/")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(course))
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
     }
 
 }

@@ -71,9 +71,15 @@ public class KurslarView extends Div implements AfterNavigationObserver {
 
         Span name = new Span(course.getCourseName());
         name.addClassName("name");
-        Span date = new Span(String.valueOf(course.getCreatedDate()).substring(0,10));
-        date.addClassName("date");
-        header.add(name, date);
+        try {
+            Span date = new Span(String.valueOf(course.getCreatedDate()).substring(0,10));
+            date.addClassName("date");
+            header.add(name, date);
+        }catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
+
 
         Span post = new Span(course.getCourseDescription());
         post.addClassName("post");

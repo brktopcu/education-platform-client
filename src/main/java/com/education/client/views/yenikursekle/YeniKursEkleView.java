@@ -1,7 +1,9 @@
 package com.education.client.views.yenikursekle;
 
 import com.education.client.data.Course;
+import com.education.client.data.SavedNewCourse;
 import com.education.client.services.RestService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -51,9 +53,9 @@ public class YeniKursEkleView extends Div {
         this.service = service;
 
         FormLayout layoutWithBinder = new FormLayout();
-        Binder<Course> binder = new Binder<>();
+        Binder<SavedNewCourse> binder = new Binder<>();
 
-        Course courseBeingEdited = new Course();
+        SavedNewCourse courseBeingEdited = new SavedNewCourse();
 
         H2 title = new H2("Yeni Kurs Oluştur");
 
@@ -95,18 +97,19 @@ public class YeniKursEkleView extends Div {
         binder.forField(courseNameField)
                 .withValidator(new StringLengthValidator(
                         "Lütfen kurs adını girin",1,null))
-                .bind(Course::getCourseName, Course::setCourseName);
+                .bind(SavedNewCourse::getCourseName, SavedNewCourse::setCourseName);
 
         binder.forField(courseDescriptionField)
                 .withValidator(new StringLengthValidator(
                         "Lütfen kurs tanımını girin",1,null))
-                .bind(Course::getCourseDescription,Course::setCourseDescription);
+                .bind(SavedNewCourse::getCourseDescription,SavedNewCourse::setCourseDescription);
 
         save.addClickListener(event -> {
             if (binder.writeBeanIfValid(courseBeingEdited)) {
+                service.postCourse(courseBeingEdited);
                 infoLabel.setText("Kaydedildi: " + courseBeingEdited);
             } else {
-                BinderValidationStatus<Course> validate = binder.validate();
+                BinderValidationStatus<SavedNewCourse> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()
                         .stream().filter(BindingValidationStatus::isError)
                         .map(BindingValidationStatus::getMessage)
