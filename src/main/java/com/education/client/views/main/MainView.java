@@ -3,6 +3,7 @@ package com.education.client.views.main;
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.education.client.views.yenikursekle.YeniKursEkleView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -92,7 +93,7 @@ public class MainView extends AppLayout {
         RouterLink[] links = new RouterLink[] {
             new RouterLink("Kurslar", KurslarView.class),
             //new RouterLink("Kurslarım", KurslarımView.class),
-            //new RouterLink("Yeni Kurs Ekle", YeniKursEkleView.class),
+            new RouterLink("Yeni Kurs Ekle", YeniKursEkleView.class),
            // new RouterLink("Kategori Ekle", KategoriEkleView.class)
         };
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
