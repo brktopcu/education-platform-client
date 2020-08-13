@@ -1,12 +1,12 @@
 package com.education.client.views.kurslar;
 
+import com.education.client.components.HtmlVideo;
 import com.education.client.data.Course;
 import com.education.client.data.Document;
 import com.education.client.data.Video;
 import com.education.client.services.RestService;
 import com.education.client.data.Section;
 import com.education.client.views.main.MainView;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -19,8 +19,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.StreamResource;
-import com.vaadin.server.Resource;
-import org.springframework.core.io.ByteArrayResource;
 
 import java.io.*;
 import java.util.Base64;
@@ -71,12 +69,16 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
        courseName.getStyle().set("margin-top","0.25em");
        Button newSectionButton = new Button("Yeni Bölüm Ekle", new Icon(VaadinIcon.PLUS_CIRCLE));
        newSectionButton.getStyle().set("cursor","pointer");
+       newSectionButton.addClickListener(event1 -> {
+           UI.getCurrent().navigate(RouteConfiguration.forSessionScope()
+                   .getUrl(AddNewSection.class,course.getCourseId()));
+       });
        Button deleteCourseButton = new Button("Kursu sil", new Icon(VaadinIcon.CLOSE_CIRCLE));
        deleteCourseButton.getStyle().set("cursor","pointer");
        deleteCourseButton.getStyle().set("color","red");
        Notification deletedNotification = new Notification(
                "Kurs silindi",5000);
-        deletedNotification.setPosition(Notification.Position.TOP_END);
+        deletedNotification.setPosition(Notification.Position.TOP_CENTER);
        deleteCourseButton.addClickListener(event1 -> {
         restService.deleteCourse(course.getCourseId());
         deletedNotification.open();

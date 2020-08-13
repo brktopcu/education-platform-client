@@ -70,7 +70,7 @@ public class YeniKursEkleView extends Div {
         infoLabel.getStyle().set("font-weight","bold");
         Notification createdNotification = new Notification(
                 "Kurs kaydedildi",5000);
-        createdNotification.setPosition(Notification.Position.TOP_END);
+        createdNotification.setPosition(Notification.Position.TOP_CENTER);
 
         MemoryBuffer memoryBuffer = new MemoryBuffer();
         Upload courseImgUpload = new Upload(memoryBuffer);

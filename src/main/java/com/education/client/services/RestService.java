@@ -85,5 +85,16 @@ public class RestService {
 
         System.out.println(result.block());
     }
+    public void postSection(SavedNewSection section){
+        Mono<String> result =  WebClient.create().post()
+                .uri("http://localhost:8081/sections/")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(section))
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+    }
 
 }

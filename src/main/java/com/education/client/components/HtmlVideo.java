@@ -1,4 +1,4 @@
-package com.education.client.views.kurslar;
+package com.education.client.components;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
