@@ -7,11 +7,14 @@ import com.education.client.services.RestService;
 import com.education.client.data.Section;
 import com.education.client.views.main.MainView;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -66,7 +69,24 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
        courseNameContainer.getStyle().set("margin-top", "1.25em");
        H3 courseName = new H3(course.getCourseName());
        courseName.getStyle().set("margin-top","0.25em");
-       courseNameContainer.add(courseName);
+       Button newSectionButton = new Button("Yeni Bölüm Ekle", new Icon(VaadinIcon.PLUS_CIRCLE));
+       newSectionButton.getStyle().set("cursor","pointer");
+       Button deleteCourseButton = new Button("Kursu sil", new Icon(VaadinIcon.CLOSE_CIRCLE));
+       deleteCourseButton.getStyle().set("cursor","pointer");
+       deleteCourseButton.getStyle().set("color","red");
+       Notification deletedNotification = new Notification(
+               "Kurs silindi",5000);
+        deletedNotification.setPosition(Notification.Position.TOP_END);
+       deleteCourseButton.addClickListener(event1 -> {
+        restService.deleteCourse(course.getCourseId());
+        deletedNotification.open();
+        UI.getCurrent().navigate(RouteConfiguration.forSessionScope()
+                   .getUrl(KurslarView.class));
+       });
+       HorizontalLayout buttonLayout = new HorizontalLayout();
+       buttonLayout.add(newSectionButton,deleteCourseButton);
+       buttonLayout.getStyle().set("margin-left","30px");
+       courseNameContainer.add(courseName,buttonLayout);
 
        //Section Container
        VerticalLayout sectionContainer = new VerticalLayout();

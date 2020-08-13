@@ -3,11 +3,14 @@ package com.education.client.views.yenikursekle;
 import com.education.client.data.Course;
 import com.education.client.data.SavedNewCourse;
 import com.education.client.services.RestService;
+import com.education.client.views.kurslar.KurslarView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.cookieconsent.CookieConsent;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -31,6 +34,8 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.education.client.views.main.MainView;
+import com.vaadin.flow.router.RouteConfiguration;
+import com.vaadin.shared.Position;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -57,13 +62,15 @@ public class YeniKursEkleView extends Div {
 
         SavedNewCourse courseBeingEdited = new SavedNewCourse();
 
-        H2 title = new H2("Yeni Kurs Oluştur");
-
         TextField courseNameField = new TextField("Kurs adı");
         courseNameField.setValueChangeMode(ValueChangeMode.EAGER);
         TextArea courseDescriptionField = new TextArea("Kurs tanımı");
         courseDescriptionField.setValueChangeMode(ValueChangeMode.EAGER);
         Label infoLabel = new Label();
+        infoLabel.getStyle().set("font-weight","bold");
+        Notification createdNotification = new Notification(
+                "Kurs kaydedildi",5000);
+        createdNotification.setPosition(Notification.Position.TOP_END);
 
         MemoryBuffer memoryBuffer = new MemoryBuffer();
         Upload courseImgUpload = new Upload(memoryBuffer);
@@ -105,9 +112,12 @@ public class YeniKursEkleView extends Div {
                 .bind(SavedNewCourse::getCourseDescription,SavedNewCourse::setCourseDescription);
 
         save.addClickListener(event -> {
-            if (binder.writeBeanIfValid(courseBeingEdited)) {
+            if (binder.writeBeanIfValid(courseBeingEdited) && courseBeingEdited.getCoursePicture()!=null) {
                 service.postCourse(courseBeingEdited);
-                infoLabel.setText("Kaydedildi: " + courseBeingEdited);
+                infoLabel.setText("Kaydedildi");
+                createdNotification.open();
+                UI.getCurrent().navigate(RouteConfiguration.forSessionScope()
+                    .getUrl(KurslarView.class));
             } else {
                 BinderValidationStatus<SavedNewCourse> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()
@@ -115,7 +125,7 @@ public class YeniKursEkleView extends Div {
                         .map(BindingValidationStatus::getMessage)
                         .map(Optional::get).distinct()
                         .collect(Collectors.joining(", "));
-                infoLabel.setText("There are errors: " + errorText);
+                infoLabel.setText("Lütfen tüm alanları doldurun!");
             }
         });
 

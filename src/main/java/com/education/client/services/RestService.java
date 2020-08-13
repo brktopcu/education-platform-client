@@ -75,4 +75,15 @@ public class RestService {
         System.out.println(result.block());
     }
 
+    public void deleteCourse(Long courseId){
+        Mono<String> result =  WebClient.create().delete()
+                .uri("http://localhost:8081/courses/"+courseId)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+    }
+
 }
