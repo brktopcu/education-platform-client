@@ -1,9 +1,6 @@
 package com.education.client.views.kurslar;
 
-import com.education.client.data.Course;
-import com.education.client.data.SavedNewCourse;
-import com.education.client.data.SavedNewSection;
-import com.education.client.data.Section;
+import com.education.client.data.*;
 import com.education.client.services.RestService;
 import com.education.client.views.main.MainView;
 import com.vaadin.flow.component.UI;
@@ -53,7 +50,10 @@ public class AddNewSection extends Div implements HasUrlParameter<Long> {
         Binder<SavedNewSection> binder = new Binder<>();
 
         SavedNewSection sectionBeingEdited = new SavedNewSection();
+        Section currentSection;
         sectionBeingEdited.setCourse(affectedCourse);
+
+        SavedNewVideo savedNewVideo = new SavedNewVideo();
 
         TextField sectionNameField = new TextField("Bölüm adı");
         sectionNameField.setValueChangeMode(ValueChangeMode.EAGER);
@@ -68,12 +68,15 @@ public class AddNewSection extends Div implements HasUrlParameter<Long> {
         MemoryBuffer memoryBuffer = new MemoryBuffer();
         Upload videoUpload = new Upload(memoryBuffer);
         videoUpload.addSucceededListener(event1 -> {
+            //FIXME get video attributes
+            savedNewVideo.setVideoName("video");
+            savedNewVideo.setVideoType("video/mp4");
             InputStream inputStream = memoryBuffer.getInputStream();
-        /*    try {
-               //TODO post video inputStream.readAllBytes();
+            try {
+                savedNewVideo.setVideoData(inputStream.readAllBytes());
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
         });
 
         Button save = new Button("Kaydet");
@@ -105,8 +108,11 @@ public class AddNewSection extends Div implements HasUrlParameter<Long> {
                 .bind(SavedNewSection::getSectionDescription,SavedNewSection::setSectionDescription);
 
         save.addClickListener(event1 -> {
-            if (binder.writeBeanIfValid(sectionBeingEdited)) {
+            if (binder.writeBeanIfValid(sectionBeingEdited) && savedNewVideo.getVideoData()!=null ) {
                 restService.postSection(sectionBeingEdited);
+                //TODO rest call to get section
+                //TODO set savedNewVideo's section
+                //TODO post video with section
                 infoLabel.setText("Kaydedildi");
                 createdNotification.open();
                 UI.getCurrent().navigate(RouteConfiguration.forSessionScope()

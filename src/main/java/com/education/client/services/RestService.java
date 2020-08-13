@@ -97,4 +97,16 @@ public class RestService {
         System.out.println(result.block());
     }
 
+    public void postVideo(SavedNewVideo video){
+        Mono<String> result =  WebClient.create().post()
+                .uri("http://localhost:8081/videos/")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(video))
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+    }
+
 }
