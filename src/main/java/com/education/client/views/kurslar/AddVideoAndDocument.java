@@ -1,9 +1,6 @@
 package com.education.client.views.kurslar;
 
-import com.education.client.data.Course;
-import com.education.client.data.SavedNewSection;
-import com.education.client.data.SavedNewVideo;
-import com.education.client.data.Section;
+import com.education.client.data.*;
 import com.education.client.services.RestService;
 import com.education.client.views.main.MainView;
 import com.vaadin.flow.component.UI;
@@ -55,9 +52,10 @@ public class AddVideoAndDocument extends Div implements HasUrlParameter<String> 
         FormLayout layoutWithBinder = new FormLayout();
 
         SavedNewVideo video = new SavedNewVideo();
+        SavedNewDocument document = new SavedNewDocument();
 
         Notification createdNotification = new Notification(
-                "Video kaydedildi",5000);
+                "Kaydedildi",5000);
         createdNotification.setPosition(Notification.Position.TOP_CENTER);
 
         MemoryBuffer memoryBuffer = new MemoryBuffer();
@@ -75,6 +73,21 @@ public class AddVideoAndDocument extends Div implements HasUrlParameter<String> 
             }
         });
 
+        MemoryBuffer memoryBuffer1 = new MemoryBuffer();
+        Upload documentUpload = new Upload(memoryBuffer1);
+        documentUpload.addSucceededListener(event1 -> {
+            //FIXME get doc attributes
+            document.setDocumentName("Test-doc");
+            document.setDocumentType("application/pdf");
+            document.setSection(currentSection);
+            InputStream inputStream = memoryBuffer1.getInputStream();
+            try {
+                document.setData(inputStream.readAllBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         Label infoLabel = new Label();
         infoLabel.getStyle().set("font-weight","bold");
 
@@ -82,6 +95,7 @@ public class AddVideoAndDocument extends Div implements HasUrlParameter<String> 
         Button reset = new Button("Sıfırla");
 
         layoutWithBinder.addFormItem(videoUpload,"Video yükle");
+        layoutWithBinder.addFormItem(documentUpload,"Doküman yükle");
 
         HorizontalLayout actions = new HorizontalLayout();
         save.getStyle().set("cursor","pointer");
@@ -93,8 +107,9 @@ public class AddVideoAndDocument extends Div implements HasUrlParameter<String> 
 
         save.addClickListener(event1 -> {
 
-            if (video.getVideoData()!=null) {
+            if (video.getVideoData()!=null && document.getData()!=null) {
                 restService.postVideo(video);
+                restService.postDocument(document);
 
                 infoLabel.setText("Kaydedildi");
                 createdNotification.open();
