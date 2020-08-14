@@ -43,20 +43,6 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
         Course course = restService.getCourseById(parameter);
         List<Section> sections = restService.getSectionsByCourseId(parameter);
 
-
-        //Top Panel
-       VerticalLayout topPanel = new VerticalLayout();
-       topPanel.setWidth("100%");
-       topPanel.addClassName("card");
-       topPanel.setSpacing(false);
-       topPanel.getThemeList().add("spacing-s");
-       Image image = new Image();
-       StreamResource resource =
-       new StreamResource("img", () -> new ByteArrayInputStream(course.getCoursePicture()));
-       image.setSrc(resource);
-       image.setHeight("100px");
-       topPanel.add(image);
-
        //Course Name Container
        HorizontalLayout courseNameContainer = new HorizontalLayout();
        courseNameContainer.getStyle().set("margin-left", "50px");
