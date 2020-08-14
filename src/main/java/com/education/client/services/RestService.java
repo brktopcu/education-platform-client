@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
 import reactor.core.publisher.Mono;
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class RestService {
 
         return course;
     }
+
     public List<Section> getSectionsByCourseId(Long courseId){
         final RequestHeadersSpec<?> spec = WebClient.create().get()
                 .uri("http://localhost:8081/sections/"+courseId);
@@ -107,6 +109,29 @@ public class RestService {
                 .bodyToMono(String.class);
 
         System.out.println(result.block());
+    }
+
+    public void postDocument(SavedNewDocument document){
+        Mono<String> result =  WebClient.create().post()
+                .uri("http://localhost:8081/documents/")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(document))
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+    }
+
+    public Section getSectionByNameAndDesc(String encodedNameAndDesc){
+
+        final RequestHeadersSpec<?> spec = WebClient.create().get()
+                .uri("http://localhost:8081/sections/getSection/"+encodedNameAndDesc);
+
+        final Section section = spec.retrieve()
+                .toEntity(Section.class).block().getBody();
+
+        return section;
     }
 
 }
