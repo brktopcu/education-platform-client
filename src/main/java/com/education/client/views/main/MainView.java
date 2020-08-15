@@ -1,8 +1,5 @@
 package com.education.client.views.main;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -24,12 +21,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
-import com.education.client.views.main.MainView;
-import com.education.client.views.kurslar.KurslarView;
+import com.education.client.views.kurslar.AllCourses;
 //import com.education.client.views.kurslarım.KurslarımView;
 //import com.education.client.views.yenikursekle.YeniKursEkleView;
 //import com.education.client.views.kategoriekle.KategoriEkleView;
@@ -97,7 +92,7 @@ public class MainView extends AppLayout {
 
     private Component[] createMenuItems() {
         RouterLink[] links = new RouterLink[] {
-            new RouterLink("Kurslar", KurslarView.class),
+            new RouterLink("Kurslar", AllCourses.class),
             //new RouterLink("Kurslarım", KurslarımView.class),
             new RouterLink("Yeni Kurs Ekle", YeniKursEkleView.class),
            // new RouterLink("Kategori Ekle", KategoriEkleView.class)

@@ -18,6 +18,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.router.*;
 import com.education.client.views.main.MainView;
 import com.vaadin.flow.server.StreamResource;
@@ -28,13 +29,13 @@ import com.vaadin.flow.server.StreamResource;
 @RouteAlias(value = "", layout = MainView.class)@PageTitle("Kurslar")
 @CssImport(value = "styles/views/kurslar/kurslar-view.css", include = "lumo-badge")
 @JsModule("@vaadin/vaadin-lumo-styles/badge.js")
-public class KurslarView extends Div implements AfterNavigationObserver {
+public class AllCourses extends Div implements AfterNavigationObserver {
 
     private final RestService restService;
 
     Grid<Course> grid = new Grid<>();
 
-    public KurslarView(RestService restService) {
+    public AllCourses(RestService restService) {
         this.restService = restService;
         setId("kurslar-view");
         addClassName("kurslar-view");
@@ -79,8 +80,6 @@ public class KurslarView extends Div implements AfterNavigationObserver {
             e.printStackTrace();
         }
 
-
-
         Span post = new Span(course.getCourseDescription());
         post.addClassName("post");
 
@@ -99,7 +98,11 @@ public class KurslarView extends Div implements AfterNavigationObserver {
 
         buttonLayout.add(courseDetailsButton);
 
-        description.add(header, post, actions);
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.setValue(0.345);
+        //TODO get value through rest call
+
+        description.add(header, post, actions,progressBar);
         card.add(image, description, buttonLayout);
         return card;
     }

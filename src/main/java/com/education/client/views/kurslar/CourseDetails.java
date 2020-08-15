@@ -9,6 +9,7 @@ import com.education.client.data.Section;
 import com.education.client.views.main.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.details.Details;
@@ -19,10 +20,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.StreamResource;
-import org.springframework.web.socket.handler.BeanCreatingHandlerProvider;
 
-import java.io.*;
 import java.util.Base64;
 import java.util.List;
 
@@ -43,7 +41,10 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
     public void setParameter(BeforeEvent event, @OptionalParameter Long parameter) {
 
         Course course = restService.getCourseById(parameter);
+
         List<Section> sections = restService.getSectionsByCourseId(parameter);
+
+
 
         //Section Demo Container
         HorizontalLayout sectionsDemoContainer = new HorizontalLayout();
@@ -90,7 +91,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
         restService.deleteCourse(course.getCourseId());
         deletedNotification.open();
         UI.getCurrent().navigate(RouteConfiguration.forSessionScope()
-                   .getUrl(KurslarView.class));
+                   .getUrl(AllCourses.class));
        });
        HorizontalLayout buttonLayout = new HorizontalLayout();
        buttonLayout.add(newSectionButton,deleteCourseButton);
@@ -101,11 +102,16 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
        //Section Container
        VerticalLayout sectionContainer = new VerticalLayout();
         sections.forEach(section ->{
+            List<Document> documents = restService.getDocumentsBySectionId(section.getSectionId());
+            List<Video> videos = restService.getVideosBySectionId(section.getSectionId());
+            float count = (float)documents.size()+(float)videos.size();
+
             H1 sectionAnchor = new H1();
             sectionAnchor.setId(section.getSectionId().toString());
             VerticalLayout sectionDetails = new VerticalLayout();
             VerticalLayout videoLayout = new VerticalLayout();
-            List<Video> videos = restService.getVideosBySectionId(section.getSectionId());
+            HorizontalLayout videoCheckboxLayout = new HorizontalLayout();
+
             videos.forEach(video -> {
                 Icon newItemIcon = new Icon(VaadinIcon.ANGLE_DOWN);
                 newItemIcon.setSize("30px");
@@ -113,10 +119,16 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 String encodedVideoData = Base64.getEncoder().encodeToString(videoData);
                 String dataUrl = "data:video/mp4;base64,"+encodedVideoData;
                 HtmlVideo htmlVideo = new HtmlVideo(dataUrl,"video/mp4");
-                videoLayout.add(newItemIcon,htmlVideo);
+                Checkbox videoCheckbox = new Checkbox();
+                videoCheckbox.addValueChangeListener(event1 -> {
+                    float addOrRemove = 1/count;
+                    //TODO rest call to add to progress bar
+                });
+                videoCheckboxLayout.add(htmlVideo,videoCheckbox);
+                videoLayout.add(newItemIcon,videoCheckboxLayout);
             });
 
-            List<Document> documents = restService.getDocumentsBySectionId(section.getSectionId());
+
             HorizontalLayout documentLayout = new HorizontalLayout();
             documentLayout.getStyle().set("margin-top","50px");
             documents.forEach(document -> {
@@ -131,7 +143,12 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 Anchor a = new Anchor(docDataUrl,document.getDocumentName());
                 a.setTarget("_blank");
                 a.getStyle().set("color","hsl(214deg 47% 47%)");
-                documentLayout.add(newItemIcon,fileIcon,a);
+                Checkbox documentCheckbox = new Checkbox();
+                documentCheckbox.addValueChangeListener(event1 -> {
+                   float addOrRemove = 1/count;
+                    //TODO rest call to add to progress bar
+                });
+                documentLayout.add(newItemIcon,fileIcon,a,documentCheckbox);
             });
             HorizontalLayout sectionName = new HorizontalLayout();
             Icon sectionIcon = new Icon(VaadinIcon.PLAY);

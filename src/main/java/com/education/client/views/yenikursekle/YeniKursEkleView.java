@@ -1,41 +1,26 @@
 package com.education.client.views.yenikursekle;
 
-import com.education.client.data.Course;
 import com.education.client.data.SavedNewCourse;
 import com.education.client.services.RestService;
-import com.education.client.views.kurslar.KurslarView;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vaadin.flow.component.Component;
+import com.education.client.views.kurslar.AllCourses;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.cookieconsent.CookieConsent;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.upload.Receiver;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.binder.*;
-import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.education.client.views.main.MainView;
 import com.vaadin.flow.router.RouteConfiguration;
-import com.vaadin.shared.Position;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -117,7 +102,7 @@ public class YeniKursEkleView extends Div {
                 infoLabel.setText("Kaydedildi");
                 createdNotification.open();
                 UI.getCurrent().navigate(RouteConfiguration.forSessionScope()
-                    .getUrl(KurslarView.class));
+                    .getUrl(AllCourses.class));
             } else {
                 BinderValidationStatus<SavedNewCourse> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()
