@@ -11,6 +11,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -19,6 +20,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.StreamResource;
+import org.springframework.web.socket.handler.BeanCreatingHandlerProvider;
 
 import java.io.*;
 import java.util.Base64;
@@ -42,6 +44,25 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
 
         Course course = restService.getCourseById(parameter);
         List<Section> sections = restService.getSectionsByCourseId(parameter);
+
+        //Section Demo Container
+        HorizontalLayout sectionsDemoContainer = new HorizontalLayout();
+        sectionsDemoContainer.getStyle().set("margin-left","20px");
+        VerticalLayout sectionsDemo = new VerticalLayout();
+        sectionsDemo.getStyle().set("background-color","ghostwhite");
+        Details sectionDemoDetails = new Details();
+        sectionDemoDetails.setSummaryText("Tüm Bölümler");
+        sections.forEach(section -> {
+            Anchor anchor = new Anchor();
+            anchor.getStyle().set("cursor","pointer");
+            anchor.getStyle().set("color","var(--lumo-secondary-text-color)");
+            anchor.setText(section.getSectionName());
+            anchor.setHref("/courses/"+course.getCourseId()+"#"+section.getSectionId().toString());
+
+            sectionsDemo.add(anchor);
+        });
+        sectionDemoDetails.addContent(sectionsDemo);
+        sectionsDemoContainer.add(sectionDemoDetails);
 
        //Course Name Container
        HorizontalLayout courseNameContainer = new HorizontalLayout();
@@ -76,12 +97,12 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
        buttonLayout.getStyle().set("margin-left","30px");
        courseNameContainer.add(courseName,buttonLayout);
 
+
        //Section Container
        VerticalLayout sectionContainer = new VerticalLayout();
-
-
-
         sections.forEach(section ->{
+            H1 sectionAnchor = new H1();
+            sectionAnchor.setId(section.getSectionId().toString());
             VerticalLayout sectionDetails = new VerticalLayout();
             VerticalLayout videoLayout = new VerticalLayout();
             List<Video> videos = restService.getVideosBySectionId(section.getSectionId());
@@ -117,7 +138,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
             sectionIcon.setSize("30px");
             H4 h2SectionName = new H4(section.getSectionName());
             h2SectionName.getStyle().set("margin-top", "0.25em");
-            sectionName.add(sectionIcon, h2SectionName);
+            sectionName.add(sectionIcon, h2SectionName,sectionAnchor);
 
             VerticalLayout sectionDescription = new VerticalLayout();
             Span sectionDescriptionSpan = new Span(section.getSectionDescription());
@@ -129,6 +150,6 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
         });
 
 
-        add(courseNameContainer,sectionContainer);
+        add(courseNameContainer,sectionsDemoContainer,sectionContainer);
     }
 }
