@@ -78,8 +78,10 @@ public class MainView extends AppLayout {
         HorizontalLayout logoLayout = new HorizontalLayout();
         logoLayout.setId("logo");
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        logoLayout.add(new Image("images/logos/18.png", "Education-client logo"));
-        logoLayout.add(new H1("Education-client"));
+        Image logoImage = new Image("images/logos/iLearn-logo.png", "Education-client logo");
+        logoImage.getStyle().set("margin-left","-3em");
+        logoLayout.add(logoImage);
+        //logoLayout.add(new H1("Education-client"));
         layout.add(logoLayout, menu);
         return layout;
     }
