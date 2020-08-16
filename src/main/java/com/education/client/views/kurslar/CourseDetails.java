@@ -151,6 +151,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 documentLayout.add(newItemIcon,fileIcon,a,documentCheckbox);
             });
             HorizontalLayout sectionName = new HorizontalLayout();
+            sectionName.getStyle().set("margin-bottom","-50px");
             Icon sectionIcon = new Icon(VaadinIcon.PLAY);
             sectionIcon.setSize("30px");
             H4 h2SectionName = new H4(section.getSectionName());
