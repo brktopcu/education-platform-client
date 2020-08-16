@@ -134,4 +134,41 @@ public class RestService {
         return section;
     }
 
+    public Progress getProgressByCourseId(Long courseId){
+
+        final RequestHeadersSpec<?> spec = WebClient.create().get()
+                .uri("http://localhost:8081/progresses/"+courseId);
+
+        final Progress progress = spec.retrieve()
+                .toEntity(Progress.class).block().getBody();
+
+        return progress;
+    }
+
+    public void updateProgress(Long courseId, Progress progress){
+        Mono<String> result =  WebClient.create().put()
+                .uri("http://localhost:8081/progresses/update/"+courseId)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(progress))
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+
+    }
+
+    public void saveNewProgress(Progress progress){
+        Mono<String> result =  WebClient.create().post()
+                .uri("http://localhost:8081/progresses")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(progress))
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+
+    }
+
 }

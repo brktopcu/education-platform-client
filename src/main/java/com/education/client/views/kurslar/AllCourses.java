@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import com.education.client.data.Course;
+import com.education.client.data.Progress;
 import com.education.client.services.RestService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -99,8 +100,8 @@ public class AllCourses extends Div implements AfterNavigationObserver {
         buttonLayout.add(courseDetailsButton);
 
         ProgressBar progressBar = new ProgressBar();
-        progressBar.setValue(0.345);
-        //TODO get value through rest call
+        Progress progress = restService.getProgressByCourseId(course.getCourseId());
+        progressBar.setValue(progress.getProgress());
 
         description.add(header, post, actions,progressBar);
         card.add(image, description, buttonLayout);

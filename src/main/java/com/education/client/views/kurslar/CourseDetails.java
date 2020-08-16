@@ -1,11 +1,9 @@
 package com.education.client.views.kurslar;
 
 import com.education.client.components.HtmlVideo;
-import com.education.client.data.Course;
-import com.education.client.data.Document;
-import com.education.client.data.Video;
-import com.education.client.services.RestService;
+import com.education.client.data.*;
 import com.education.client.data.Section;
+import com.education.client.services.RestService;
 import com.education.client.views.main.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -23,6 +21,7 @@ import com.vaadin.flow.router.*;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Route(value = "courses", layout = MainView.class)
 @PageTitle("Kurs Detayları")
@@ -101,10 +100,11 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
 
        //Section Container
        VerticalLayout sectionContainer = new VerticalLayout();
+       AtomicReference<Float> count = new AtomicReference<>((float) 0);
         sections.forEach(section ->{
             List<Document> documents = restService.getDocumentsBySectionId(section.getSectionId());
             List<Video> videos = restService.getVideosBySectionId(section.getSectionId());
-            float count = (float)documents.size()+(float)videos.size();
+            count.set(count.get() +(float) documents.size() + (float) videos.size());
 
             H1 sectionAnchor = new H1();
             sectionAnchor.setId(section.getSectionId().toString());
@@ -120,9 +120,18 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 String dataUrl = "data:video/mp4;base64,"+encodedVideoData;
                 HtmlVideo htmlVideo = new HtmlVideo(dataUrl,"video/mp4");
                 Checkbox videoCheckbox = new Checkbox();
+                //TODO add checked property to courses to keep track of the checkboxes
                 videoCheckbox.addValueChangeListener(event1 -> {
-                    float addOrRemove = 1/count;
-                    //TODO rest call to add to progress bar
+                    float addOrRemove = 1/ count.get();
+                    Progress progress = restService.getProgressByCourseId(course.getCourseId());
+                    if(videoCheckbox.getValue()){
+                        progress.setProgress(progress.getProgress()+addOrRemove);
+                        if(progress.getProgress()>1){progress.setProgress(1);}
+                    }else{
+                        progress.setProgress(progress.getProgress()-addOrRemove);
+                        if(progress.getProgress()<0){progress.setProgress(0);}
+                    }
+                    restService.updateProgress(course.getCourseId(),progress);
                 });
                 videoCheckboxLayout.add(htmlVideo,videoCheckbox);
                 videoLayout.add(newItemIcon,videoCheckboxLayout);
@@ -145,8 +154,16 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 a.getStyle().set("color","hsl(214deg 47% 47%)");
                 Checkbox documentCheckbox = new Checkbox();
                 documentCheckbox.addValueChangeListener(event1 -> {
-                   float addOrRemove = 1/count;
-                    //TODO rest call to add to progress bar
+                   float addOrRemove = 1/ count.get();
+                   Progress progress = restService.getProgressByCourseId(course.getCourseId());
+                   if(documentCheckbox.getValue()){
+                       progress.setProgress(progress.getProgress()+addOrRemove);
+                       if(progress.getProgress()>1){progress.setProgress(1);}
+                   }else{
+                       progress.setProgress(progress.getProgress()-addOrRemove);
+                       if(progress.getProgress()<0){progress.setProgress(0);}
+                   }
+                    restService.updateProgress(course.getCourseId(),progress);
                 });
                 documentLayout.add(newItemIcon,fileIcon,a,documentCheckbox);
             });
