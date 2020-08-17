@@ -60,8 +60,10 @@ public class MainView extends AppLayout {
         viewTitle = new H1();
         layout.add(viewTitle);
 
-        Anchor logout = new Anchor("logout", "Log out");
+        Anchor logout = new Anchor("logout", "Oturumu Kapat");
         logout.getStyle().set("margin-right","10px");
+        logout.getStyle().set("color","var(--lumo-header-text-color)");
+        logout.getStyle().set("font-size","15px");
 
         Image avatarImage = new Image("/images/logos/no-avatar.png",
                 "Avatar");

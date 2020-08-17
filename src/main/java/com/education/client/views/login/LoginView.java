@@ -1,6 +1,7 @@
 package com.education.client.views.login;
 
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -16,6 +17,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private LoginForm login = new LoginForm();
 
     public LoginView(){
+        Image logo = new Image();
+        logo.setSrc("/images/logos/iLearn-logo.png");
         login.setI18n(createLoginI18n());
         addClassName("login-view");
         setSizeFull();
@@ -24,7 +27,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         login.setAction("login");
 
-        add(login);
+        add(logo,login);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         i18n.getHeader().setTitle("Giriş yap");
         i18n.getHeader().setDescription("Lütfen giriş yapın");
         i18n.getForm().setUsername("Kullanıcı Adı");
-        i18n.getForm().setTitle("Lütfen giriş yapın");
+        i18n.getForm().setTitle(" ");
         i18n.getForm().setSubmit("Giriş");
         i18n.getForm().setPassword("Şifre");
         i18n.getForm().setForgotPassword("Şifremi Unuttum");
