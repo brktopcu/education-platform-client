@@ -63,7 +63,7 @@ public class MainView extends AppLayout {
         Anchor logout = new Anchor("logout", "Log out");
         logout.getStyle().set("margin-right","10px");
 
-        Image avatarImage = new Image("https://randomuser.me/api/portraits/men/11.jpg",
+        Image avatarImage = new Image("/images/logos/no-avatar.png",
                 "Avatar");
         layout.add(avatarImage,logout);
 
