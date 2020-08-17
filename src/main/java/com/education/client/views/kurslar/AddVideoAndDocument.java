@@ -65,6 +65,7 @@ public class AddVideoAndDocument extends Div implements HasUrlParameter<String> 
             video.setVideoName("video");
             video.setVideoType("video/mp4");
             video.setVideoSection(currentSection);
+            video.setChecked(false);
             InputStream inputStream = memoryBuffer.getInputStream();
             try {
                 video.setVideoData(inputStream.readAllBytes());
@@ -80,6 +81,7 @@ public class AddVideoAndDocument extends Div implements HasUrlParameter<String> 
             document.setDocumentName("Test-doc");
             document.setDocumentType("application/pdf");
             document.setSection(currentSection);
+            document.setChecked(false);
             InputStream inputStream = memoryBuffer1.getInputStream();
             try {
                 document.setData(inputStream.readAllBytes());

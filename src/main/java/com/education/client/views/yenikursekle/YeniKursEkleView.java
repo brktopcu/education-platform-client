@@ -1,5 +1,6 @@
 package com.education.client.views.yenikursekle;
 
+import com.education.client.data.Progress;
 import com.education.client.data.SavedNewCourse;
 import com.education.client.services.RestService;
 import com.education.client.views.kurslar.AllCourses;

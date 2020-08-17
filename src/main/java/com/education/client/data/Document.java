@@ -11,6 +11,7 @@ import java.util.Map;
         "documentName",
         "documentType",
         "data",
+        "checked",
         "section"
 })
 public class Document {
@@ -23,6 +24,8 @@ public class Document {
     private String documentType;
     @JsonProperty("data")
     private byte[] data;
+    @JsonProperty("checked")
+    private boolean checked;
     @JsonProperty("section")
     private Section section;
     @JsonIgnore
@@ -66,6 +69,16 @@ public class Document {
     @JsonProperty("data")
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    @JsonProperty("checked")
+    public boolean isChecked() {
+        return checked;
+    }
+
+    @JsonProperty("checked")
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     @JsonProperty("section")

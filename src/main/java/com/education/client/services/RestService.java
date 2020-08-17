@@ -170,5 +170,28 @@ public class RestService {
         System.out.println(result.block());
 
     }
+    public void updateVideoCheckbox(Long videoId){
+        Mono<String> result =  WebClient.create().put()
+                .uri("http://localhost:8081/videos/update/"+videoId)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+
+    }
+
+    public void updateDocumentCheckbox(Long documentId){
+        Mono<String> result =  WebClient.create().put()
+                .uri("http://localhost:8081/documents/update/"+documentId)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class);
+
+        System.out.println(result.block());
+
+    }
 
 }

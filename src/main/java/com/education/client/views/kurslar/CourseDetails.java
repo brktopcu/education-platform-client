@@ -120,7 +120,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 String dataUrl = "data:video/mp4;base64,"+encodedVideoData;
                 HtmlVideo htmlVideo = new HtmlVideo(dataUrl,"video/mp4");
                 Checkbox videoCheckbox = new Checkbox();
-                //TODO add checked property to courses to keep track of the checkboxes
+                videoCheckbox.setValue(video.isChecked());
                 videoCheckbox.addValueChangeListener(event1 -> {
                     float addOrRemove = 1/ count.get();
                     Progress progress = restService.getProgressByCourseId(course.getCourseId());
@@ -131,6 +131,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                         progress.setProgress(progress.getProgress()-addOrRemove);
                         if(progress.getProgress()<0){progress.setProgress(0);}
                     }
+                    restService.updateVideoCheckbox(video.getVideoId());
                     restService.updateProgress(course.getCourseId(),progress);
                 });
                 videoCheckboxLayout.add(htmlVideo,videoCheckbox);
@@ -153,6 +154,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                 a.setTarget("_blank");
                 a.getStyle().set("color","hsl(214deg 47% 47%)");
                 Checkbox documentCheckbox = new Checkbox();
+                documentCheckbox.setValue(document.isChecked());
                 documentCheckbox.addValueChangeListener(event1 -> {
                    float addOrRemove = 1/ count.get();
                    Progress progress = restService.getProgressByCourseId(course.getCourseId());
@@ -163,6 +165,7 @@ public class CourseDetails extends Div implements HasUrlParameter<Long> {
                        progress.setProgress(progress.getProgress()-addOrRemove);
                        if(progress.getProgress()<0){progress.setProgress(0);}
                    }
+                    restService.updateDocumentCheckbox(document.getDocumentId());
                     restService.updateProgress(course.getCourseId(),progress);
                 });
                 documentLayout.add(newItemIcon,fileIcon,a,documentCheckbox);

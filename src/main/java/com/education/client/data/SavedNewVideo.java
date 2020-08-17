@@ -10,6 +10,7 @@ import java.util.Map;
         "videoName",
         "videoType",
         "videoData",
+        "checked",
         "section"
 })
 public class SavedNewVideo {
@@ -19,6 +20,8 @@ public class SavedNewVideo {
     private String videoType;
     @JsonProperty("videoData")
     private byte[] videoData;
+    @JsonProperty("checked")
+    private boolean checked;
     @JsonProperty("section")
     private Section section;
 
@@ -53,6 +56,16 @@ public class SavedNewVideo {
     @JsonProperty("videoData")
     public void setVideoData(byte[] videoData) {
         this.videoData = videoData;
+    }
+
+    @JsonProperty("checked")
+    public boolean isChecked() {
+        return checked;
+    }
+
+    @JsonProperty("checked")
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     @JsonProperty("section")

@@ -11,18 +11,21 @@ import java.util.Map;
         "videoName",
         "videoType",
         "videoData",
+        "checked",
         "courseCategory",
         "createdDate"
 })
 public class Video {
     @JsonProperty("videoId")
-    private Integer videoId;
+    private Long videoId;
     @JsonProperty("videoName")
     private String videoName;
     @JsonProperty("videoType")
     private String videoType;
     @JsonProperty("videoData")
     private byte[] videoData;
+    @JsonProperty("checked")
+    private boolean checked;
     @JsonProperty("courseCategory")
     private CourseCategory courseCategory;
     @JsonProperty("createdDate")
@@ -31,12 +34,12 @@ public class Video {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("videoId")
-    public Integer getVideoId() {
+    public Long getVideoId() {
         return videoId;
     }
 
     @JsonProperty("videoId")
-    public void setVideoId(Integer videoId) {
+    public void setVideoId(Long videoId) {
         this.videoId = videoId;
     }
 
@@ -68,6 +71,16 @@ public class Video {
     @JsonProperty("videoData")
     public void setVideoData(byte[] videoData) {
         this.videoData = videoData;
+    }
+
+    @JsonProperty("checked")
+    public boolean isChecked() {
+        return checked;
+    }
+
+    @JsonProperty("checked")
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     @JsonProperty("courseCategory")
